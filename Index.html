@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TRS Operations Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family: 'Segoe UI', sans-serif; background:#0f172a; color:#e2e8f0; }
+    header { background:#1e293b; padding:20px 30px; border-bottom:2px solid #334155; }
+    header h1 { font-size:1.4rem; color:#38bdf8; }
+    header p  { font-size:0.85rem; color:#94a3b8; margin-top:4px; }
+    .kpi-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+                gap:16px; padding:24px 30px; }
+    .kpi-card { background:#1e293b; border-radius:12px; padding:20px;
+                border-left:4px solid #38bdf8; text-align:center; }
+    .kpi-card .value { font-size:1.8rem; font-weight:700; color:#38bdf8; }
+    .kpi-card .label { font-size:0.75rem; color:#94a3b8; margin-top:6px; text-transform:uppercase; }
+    .charts-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(340px,1fr));
+                   gap:20px; padding:0 30px 30px; }
+    .chart-box { background:#1e293b; border-radius:12px; padding:20px; }
+    .chart-box h3 { font-size:0.9rem; color:#cbd5e1; margin-bottom:16px; }
+    canvas { max-height:260px; }
+    footer { text-align:center; padding:20px; color:#475569; font-size:0.8rem; }
+  </style>
+</head>
+<body>
+<header>
+  <h1>🛢️ TRS Operations Dashboard</h1>
+  <p>Tubular Running Services · Eastern Province, KSA · April 2026</p>
+</header>
+
+<div class="kpi-grid">
+  <div class="kpi-card"><div class="value">$568K</div><div class="label">Total Revenue</div></div>
+  <div class="kpi-card"><div class="value">63</div><div class="label">Total Jobs</div></div>
+  <div class="kpi-card"><div class="value">88.9%</div><div class="label">Completion Rate</div></div>
+  <div class="kpi-card"><div class="value">8.4%</div><div class="label">NPT %</div></div>
+  <div class="kpi-card"><div class="value">$9,021</div><div class="label">Avg Rev / Job</div></div>
+  <div class="kpi-card"><div class="value">6,950</div><div class="label">Total Joints</div></div>
+</div>
+
+<div class="charts-grid">
+  <div class="chart-box">
+    <h3>📈 Cumulative Revenue — April 2026</h3>
+    <canvas id="revenueChart"></canvas>
+  </div>
+  <div class="chart-box">
+    <h3>👤 Revenue by Customer</h3>
+    <canvas id="customerChart"></canvas>
+  </div>
+  <div class="chart-box">
+    <h3>⚠️ NPT Root Cause Analysis</h3>
+    <canvas id="nptChart"></canvas>
+  </div>
+  <div class="chart-box">
+    <h3>🔧 Revenue by Service Type</h3>
+    <canvas id="serviceChart"></canvas>
+  </div>
+</div>
+
+<footer>Built by Mohamed Aboyonis · TRS Operations Supervisor · 11+ Years Oil & Gas</footer>
+
+<script>
+new Chart(document.getElementById('revenueChart'), { type:'line',
+  { labels:['Apr 1','Apr 5','Apr 10','Apr 15','Apr 20','Apr 25','Apr 29'],
+    datasets:[{ label:'Cumul. Revenue ($)', borderColor:'#38bdf8',
+      backgroundColor:'rgba(56,189,248,0.1)', fill:true, tension:0.4,
+      [26849,105834,192906,298083,414584,480276,568310] }] },
+  options:{ plugins:{ legend:{ labels:{ color:'#cbd5e1' } } },
+    scales:{ x:{ ticks:{ color:'#94a3b8' } },
+             y:{ ticks:{ color:'#94a3b8', callback: v => '$'+Math.round(v/1000)+'K' } } } }
+});
+
+new Chart(document.getElementById('customerChart'), { type:'bar',
+  { labels:['A','B','C','D','E'],
+    datasets:[{ label:'Revenue ($)', backgroundColor:'#818cf8',
+      [130478,132321,121079,97310,87122] }] },
+  options:{ plugins:{ legend:{ labels:{ color:'#cbd5e1' } } },
+    scales:{ x:{ ticks:{ color:'#94a3b8' } },
+             y:{ ticks:{ color:'#94a3b8', callback: v => '$'+Math.round(v/1000)+'K' } } } }
+});
+
+new Chart(document.getElementById('nptChart'), { type:'bar',
+  { labels:['Process','Personnel','Equipment','Weather','Client/3rd'],
+    datasets:[{ label:'NPT Hours',
+      backgroundColor:['#f87171','#fb923c','#fbbf24','#34d399','#60a5fa'],
+      [27.7,17.2,11.7,7.6,7.3] }] },
+  options:{ plugins:{ legend:{ display:false } },
+    scales:{ x:{ ticks:{ color:'#94a3b8' } },
+             y:{ ticks:{ color:'#94a3b8' } } } }
+});
+
+new Chart(document.getElementById('serviceChart'), { type:'bar',
+  { labels:['Casing','Combo','Tubing','CDS','PULD'],
+    datasets:[{ label:'Revenue ($)', backgroundColor:'#2dd4bf',
+      [140101,124376,124179,111017,68637] }] },
+  options:{ indexAxis:'y',
+    plugins:{ legend:{ labels:{ color:'#cbd5e1' } } },
+    scales:{ x:{ ticks:{ color:'#94a3b8', callback: v => '$'+Math.round(v/1000)+'K' } },
+             y:{ ticks:{ color:'#94a3b8' } } } }
+});
+</script>
+</body>
+</html>
